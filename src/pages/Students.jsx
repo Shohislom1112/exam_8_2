@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./main.scss";
 import {
   Button,
   Paper,
@@ -23,6 +24,7 @@ const Students = () => {
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [search, setSearch] = useState("");
 
   const fetchStudents = async () => {
     setLoading(true);
@@ -115,7 +117,22 @@ const Students = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="h4">Students</Typography>
+        <Typography variant="h4">Products
+        
+        
+        
+        
+        
+        
+        
+        </Typography>
+        <input
+          type="text"
+          placeholder="Search"
+          className="inputt"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <Button variant="contained" onClick={() => setOpenAdd(true)}>
           Add
         </Button>
@@ -144,39 +161,51 @@ const Students = () => {
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>     
-              {students.map((student) => (
-                <TableRow
-                  key={student.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {student.id}
-                  </TableCell>
-                  <TableCell>
-                    <img
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                      }}
-                      src={student.image }
-                      alt={student.name}
-                    />
-                  </TableCell>
-                  <TableCell>{student.name}</TableCell>
-                  <TableCell>{student.description}</TableCell>
-                  <TableCell>{student.sale}</TableCell>
-                  <TableCell>
-                    <Actions
-                      type="student"
-                      data={student}
-                      handleEdit={() => handleEdit(student)}
-                      handleDelete={() => handleDelete("students", student.id)}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
+            <TableBody>
+              {students
+                .filter((student) => {
+                  if (search === "") {
+                    return student;
+                  } else if (
+                    student.name.toLowerCase().includes(search.toLowerCase())
+                  ) {
+                    return student;
+                  }
+                })
+                .map((student) => (
+                  <TableRow
+                    key={student.id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {student.id}
+                    </TableCell>
+                    <TableCell>
+                      <img
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          borderRadius: "50%",
+                        }}
+                        src={student.image}
+                        alt={student.name}
+                      />
+                    </TableCell>
+                    <TableCell>{student.name}</TableCell>
+                    <TableCell>{student.description}</TableCell>
+                    <TableCell>{student.sale}</TableCell>
+                    <TableCell>
+                      <Actions
+                        type="student"
+                        data={student}
+                        handleEdit={() => handleEdit(student)}
+                        handleDelete={() =>
+                          handleDelete("students", student.id)
+                        }
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
