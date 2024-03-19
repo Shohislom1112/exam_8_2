@@ -133,6 +133,7 @@ const Students = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+        
         <Button variant="contained" onClick={() => setOpenAdd(true)}>
           Add
         </Button>
